@@ -111,21 +111,46 @@ void createContact(AddressBook *addressBook)
             phone:
             scanf("%s",addressBook->contacts[addressBook->contactCount].phone);
             // validation for phone number
+            for(int i=0;addressBook->contacts[addressBook->contactCount].phone[i]!=0;i++)
+            {
+                if(isdigit(addressBook->contacts[addressBook->contactCount].phone[i])==0)
+                {
+                    printf("Re-enter Phone Number, First Number should be greater then 5 and phone number should be 10 digits only : ");  
+                    goto phone;
+                }
+            }
             if(strlen(addressBook->contacts[addressBook->contactCount].phone)==10 && addressBook->contacts[addressBook->contactCount].phone[0]>'5')
             {
                 printf("Enter email ID : ");
                 email:
                 scanf("%s",addressBook->contacts[addressBook->contactCount].email);
                 // validation for email
+                int at_count=0,at_pos;
                 for(int i=0;addressBook->contacts[addressBook->contactCount].email[i]!=0;i++)
                 {
-                if(isupper(addressBook->contacts[addressBook->contactCount].email[i])!=0 ||  addressBook->contacts[addressBook->contactCount].email[0]=='@' || 
-                addressBook->contacts[addressBook->contactCount].email[i]==' ' || strstr(addressBook->contacts[addressBook->contactCount].email, ".com")==NULL ||
-                 strchr(addressBook->contacts[addressBook->contactCount].email, '@')==NULL)
+                if(isupper(addressBook->contacts[addressBook->contactCount].email[i])!=0 || addressBook->contacts[addressBook->contactCount].email[i]==' ')
+                // check uppercase and space in email
                 {
                     printf("Re-Enter valid Email which should be in Lowercase and contains charecter like \".com\", \"@\" once and should not contains space : ");
                     goto email;
                 }
+                if(addressBook->contacts[addressBook->contactCount].email[i]=='@') // find count and position of @
+                {
+                    at_count++;
+                    at_pos=i;
+                }
+                }
+                int len =strlen(addressBook->contacts[addressBook->contactCount].email); // find length of email
+                if(addressBook->contacts[addressBook->contactCount].email[0]=='@' || at_count!=1 || (len-4)-at_pos <2 ) 
+                // check @ is in fisrt place and @ shoulb be ones occ,between @...com should be 1 charactor
+                {
+                   printf("Re-Enter valid Email which should be in Lowercase and contains charecter like \".com\", \"@\" once and should not contains space : ");
+                   goto email; 
+                }
+                if(len < 4 || strcmp(&addressBook->contacts[addressBook->contactCount].email[len - 4], ".com") != 0)// check last 4 charcecter is .com or not
+                {
+                    printf("Re-Enter valid Email which should be in Lowercase and contains charecter like \".com\", \"@\" once and should not contains space : ");
+                    goto email;
                 }   
                 addressBook->contactCount++;
             }
