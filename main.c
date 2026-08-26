@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "contact.h"
 
-int main() {
+int main()
+ {
     int choice;
     AddressBook addressBook;
     initialize(&addressBook); // Initialize the address book
@@ -35,11 +36,11 @@ int main() {
                 listContacts(&addressBook);
                 break;
             case 6:
-                printf("Saving...\n");
-                //saveContactsToFile(&addressBook);
+                printf("\nSaving...\n");
+                saveContactsToFile(&addressBook); 
                 break;   
             case 7:
-                printf("Exiting...\n");
+                printf("\nExiting...\n");
                 break;
             default:
                 printf("Invalid choice. Please try again.\n");
